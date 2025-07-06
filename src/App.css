@@ -1,54 +1,75 @@
-.wrapper {
-    width: 340px;
-    background-color: #485461;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8), 0 0 10px rgba(0, 255, 255, 0.2);
-    margin: 50px auto;
-}
-
 #root {
     height: 100vh;
+    overflow: hidden;
 }
 
 body {
-    background: linear-gradient(135deg, #d4fc79, #fdfb8a, #fbc2eb, #fcb69f);
-    background: linear-gradient(135deg, #b8ffb4, #ffe29f);
+      background: linear-gradient(135deg, #4d4d4f, #0f0f10);
+      
 }
 
 .screen {
-    background-color: #4357692d;
-    color: #fff;
-    font-size: 2.5rem;
-    word-wrap: break-word;
-    padding: 20px;
+    height: 100px;
+    background-color: black;
+    color: white;
+    font-size: 48px;
     text-align: right;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    min-height: 60px;
+    padding: 20px;
+    overflow-x: auto;
+    word-wrap: break-word;
+}
+
+.wrapper {
+    width: 360px;
+    margin: 50px auto;
+    border-radius: 20px;
+    background: #000;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+     box-shadow: 
+    inset 4px 4px 10px rgba(0, 0, 0, 0.5),  
+    8px 8px 20px rgba(0, 0, 0, 0.6),       
+    -4px -4px 15px rgba(255, 255, 255, 0.05); 
 }
 
 .buttonBox {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .button {
-    background-color: #503cd1;
-    color: #fff;
+    width: 80px;
+    height: 80px;
+    margin: 5px;
     border: none;
-    border-radius: 35px;
-    padding: 20px;
-    font-size: 1.5rem;
+    border-radius: 50%;
+    font-size: 28px;
+    color: white;
+    background-color: #505050;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: all 0.2s ease;
 }
 
-.button:hover {
-    background-color: #3f2db4;
+.button:active {
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
 }
 
-.button.equals {
-    background-color: #f33d1d;
+.button.none {
+    cursor: unset;
+    touch-action: none;
+    pointer-events: none;
+}
+
+.button.equals,
+.button.operator {
+    background-color: #ff9500;
+    color: white;
+}
+
+.button.special {
+    background-color: #d4d4d2;
+    color: black;
 }

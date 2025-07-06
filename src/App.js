@@ -3,6 +3,7 @@ import Wrapper from "./components/Wrapper";
 import Screen from "./components/Screen";
 import ButtonBox from "./components/ButtonBox";
 import Button from "./components/Button";
+import classnames from 'classnames';
 
 const btnValues = [
     ["C", "+/-", "%", "÷"],
@@ -71,18 +72,29 @@ const App = () => {
         setInput( ( prev ) => prev + value );
     };
 
+
     return (
         <Wrapper>
             <Screen value={input || result} />
             <ButtonBox>
-                {btnValues.flat().map( ( btn, i ) => (
-                    <Button
-                        key={i}
-                        className={btn === "=" ? "equals" : ""}
-                        value={btn}
-                        onClick={() => handleClick( btn.toString() )}
-                    />
-                ) )}
+                {btnValues.flat().map( ( btn, i ) => {
+                    const widgetClassName = classnames( "button", {
+                        equals: btn === "=",
+                        operator: ["+", "-", "x", "÷"].includes( btn ),
+                        special: ["C", "+/-", "%"].includes( btn ),
+                        zero: btn === 0,
+                        none :  btn === ""
+                    } );
+
+                    return (
+                        <Button
+                            key={i}
+                            className={widgetClassName}
+                            value={btn}
+                            onClick={() => handleClick( btn.toString() )}
+                        />
+                    );
+                } )}
             </ButtonBox>
         </Wrapper>
     );

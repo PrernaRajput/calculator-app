@@ -1,61 +1,80 @@
 import React, { useState } from "react";
+import Wrapper from "./components/Wrapper";
+import Screen from "./components/Screen";
+import ButtonBox from "./components/ButtonBox";
+import Button from "./components/Button";
 
-function App() {
-  const [input, setInput] = useState("");
-  const [total, setTotal] = useState(0);
+const btnValues = [
+    ["C", "+/-", "%", "÷"],
+    [7, 8, 9, "x"],
+    [4, 5, 6, "-"],
+    [1, 2, 3, "+"],
+    [0, ".", "="],
+];
 
-  const handleInputChange = (e) => {
-    setInput(e.target.value);
-  };
+const App = () => {
+    const [input, setInput] = useState( "" );
+    const [result, setResult] = useState( "0" );
+    const [isResultDisplayed, setIsResultDisplayed] = useState( false );
 
-  const performOperation = (operator) => {
-    const num = parseFloat(input);
-    if (isNaN(num)) return;
-
-    switch (operator) {
-      case "+":
-        setTotal((prev) => prev + num);
-        break;
-      case "-":
-        setTotal((prev) => prev - num);
-        break;
-      case "*":
-        setTotal((prev) => prev * num);
-        break;
-      case "/":
-        if (num !== 0) {
-          setTotal((prev) => prev / num);
+    const handleClick = ( value ) => {
+        if ( value === "C" ) {
+            setInput( "" );
+            setResult( "0" );
+            setIsResultDisplayed( false );
+        } else if ( value === "=" ) {
+            try {
+                const sanitized = input.replace( /÷/g, "/" ).replace( /x/g, "*" );
+                const evalResult = eval( sanitized ).toString();
+                setResult( evalResult );
+                setInput( "" );
+                setIsResultDisplayed( true );
+            } catch {
+                setResult( "Error" );
+                setInput( "" );
+                setIsResultDisplayed( true );
+            }
+        } else if ( value === "+/-" ) {
+            if ( input ) {
+                const newInput = input.replace( /(-?\d+)(?!.*\d)/, ( num ) => ( -parseFloat( num ) ).toString() );
+                setInput( newInput );
+            }
         } else {
-          alert("Cannot divide by zero");
+            if ( isResultDisplayed ) {
+                if ( ["+", "-", "x", "÷"].includes( value ) ) {
+                    setInput( result + value );
+                } else {
+                    setInput( value.toString() );
+                }
+                setIsResultDisplayed( false );
+            } else {
+                setInput( ( prev ) => prev + value.toString() );
+            }
         }
-        break;
-      default:
-        break;
-    }
+    };
 
-    setInput("");
-  };
+    const getClass = ( val ) => {
+        if ( ["+", "-", "x", "÷", "="].includes( val ) ) return "operator";
+        if ( ["C", "+/-", "%"].includes( val ) ) return "special";
+        if ( val === 0 ) return "zero";
+        return "";
+    };
 
-  return (
-    <div style={{ padding: "20px", maxWidth: "300px", margin: "auto" }}>
-      <h1>Calculator App</h1>
-      <h2>Total: {total}</h2>
-
-      <input
-        type="number"
-        value={input}
-        onChange={handleInputChange}
-        placeholder="Enter a number"
-      />
-
-      <div style={{ marginTop: "10px" }}>
-        <button onClick={() => performOperation("+")}>+</button>
-        <button onClick={() => performOperation("-")}>−</button>
-        <button onClick={() => performOperation("*")}>×</button>
-        <button onClick={() => performOperation("/")}>÷</button>
-      </div>
-    </div>
-  );
-}
+    return (
+        <Wrapper>
+            <Screen value={input || result} />
+            <ButtonBox>
+                {btnValues.flat().map( ( btn, i ) => (
+                    <Button
+                        key={i}
+                        className={getClass( btn )}
+                        value={btn}
+                        onClick={() => handleClick( btn )}
+                    />
+                ) )}
+            </ButtonBox>
+        </Wrapper>
+    );
+};
 
 export default App;
