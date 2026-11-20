@@ -23,8 +23,7 @@ const App = () => {
     const calculateResult = ( expression ) => {
         try {
             const cleanExpr = replaceOperators( expression );
-            // Avoid using eval directly
-            const output = new Function( "return " + cleanExpr )();
+            const output = eval( cleanExpr );
             return output.toString();
         } catch {
             return "Error";
