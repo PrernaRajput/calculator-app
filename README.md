@@ -20,6 +20,14 @@ Installs dependencies.
 
 Runs the app in development mode at [http://localhost:3000](http://localhost:3000).
 
+## Deploy to GitHub Pages
+
+The GitHub Actions workflow in `.github/workflows/deploy.yml` builds and deploys the site whenever you push to the `main` branch (or run it manually from the Actions tab).
+
+In the repository on GitHub, open **Settings → Pages** and set **Build and deployment → Source** to **GitHub Actions**. After the workflow completes, the site will be available at [https://PrernaRajput.github.io/calculator-app](https://PrernaRajput.github.io/calculator-app).
+
+The `homepage` setting in `package.json` configures Create React App to load assets from the repository path. If your GitHub username or repository name differs, update that URL to match.
+
 ## Folder Structure
 
 ```
